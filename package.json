@@ -1,0 +1,19 @@
+{
+  "name": "node_course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+	"start": "node ./homework_02.js 16-11-2021-22:32:59 16-11-2021-22:35:25",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "date-and-time": "^2.0.1",
+    "humanize-duration": "^3.27.0",
+    "moment": "^2.29.1"
+  }
+}
