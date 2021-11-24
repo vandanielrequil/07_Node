@@ -1,5 +1,5 @@
 const argArr = process.argv.slice(2, 4);
-const colors = require('colors');
+import { grey, green, yellow, red } from 'colors';
 
 let x = parseInt(argArr[0]),
     y = parseInt(argArr[1]);
@@ -30,12 +30,12 @@ function simpleNumber(x) {
 function printColoredNums(x, y) {
     let coloredArr = [], isThereAreSimples = 0;
     for (let i = x, j = 1; i <= y; i++) {
-        let color = colors.grey;
+        let color = grey;
         if (simpleNumber(i)) {
             switch (j) {
-                case 1: color = colors.green; break
-                case 2: color = colors.yellow; break
-                case 3: color = colors.red; break
+                case 1: color = green; break
+                case 2: color = yellow; break
+                case 3: color = red; break
             }
             (j === 3) ? j = 0 : false
             j++;

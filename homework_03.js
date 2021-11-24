@@ -20,6 +20,7 @@ for (let ip of ipArr) {
 const transformStream = new Transform({
     transform(chunk, encoding, callback) {
         const tChunck = chunk.toString();
+        console.log(chunk);
         let outChunk = '';
         for (let wrStrObj of writeStreamObjArr) {
             try {
