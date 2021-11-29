@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { Transform } from 'stream';
 
-import { dirname } from 'path';
+import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 import inquirer from "inquirer";
@@ -28,7 +28,7 @@ function ReadAndWriteLogs(filePath, stringPatterns) {
             const transformFunction = (chunk) => {
                 for (let ip of ipArr) {
                     writeStreamObjArr.push({
-                        writeStream: fs.createWriteStream('.\\logs\\' + ip + '_requests.log', { flags: 'a', encoding: 'utf-8' }),
+                        writeStream: fs.createWriteStream(path.join(currentDirectory, '/logs/') + ip + '_requests.log', { flags: 'a', encoding: 'utf-8' }),
                         ip: ip
                     });
                 }
@@ -66,13 +66,13 @@ function chooseFile(currentDirectory, processFile) {
             {
                 name: "objectName",
                 type: "list",
-                message: "Choose directory:",
+                message: "Choose directory or file:",
                 choices: listDir,
                 loop: false,
             }
         ])
         .then((answer) => {
-            let objectPath = currentDirectory + '\\' + answer.objectName;
+            let objectPath = path.join(currentDirectory, answer.objectName);
             if (answer.objectName === `↑ go up`) {
                 chooseFile(currentDirectory.replace(/\\\w+$/, ''));
                 return true;
