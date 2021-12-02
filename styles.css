@@ -1,0 +1,16 @@
+.outPut {
+    margin: 0 20px 20px;
+    padding: 10px;
+    min-width: 200px;
+    min-height: 20px;
+    background: wheat;
+}
+
+.buttonM {
+    margin: 10px;
+}
+
+.hw {
+    margin: 10px;
+    border: 2px solid #000;
+}
