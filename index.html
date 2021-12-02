@@ -1,21 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="styles.css">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js"
+        integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj"
+        crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.socket.io/4.2.0/socket.io.min.js"
+        integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj"
+        crossorigin="anonymous"></script> -->
+
     <title>Document</title>
 </head>
 
 <body>
-    <div class="hw5">
+    <!-- <div class="hw">
+        <h1>&nbsp;&nbsp;&nbsp;Homework 5</h1>
         <button class="buttonM" id='but1'>Open project root</button>
         <div class="outPut"></div>
+    </div> -->
+    <div class="hw">
+        <h1>&nbsp;&nbsp;&nbsp;Homework 6</h1>
+        <input id="inpUname" class="buttonM" type="text" value="Enter your username"><br><br>
+        <input id="inpMsg" class="buttonM" type="text" value="Type message">
+        <button class="buttonM" id="butSend">send msg</button>
+        <div class="chat" id='chat'
+            style="margin:20px; background-color: blanchedalmond; min-height:20px; width: 500px; display: flex; flex-direction: column;">
+        </div>
     </div>
 </body>
 
-<script src="script.js"></script>
+<!-- <script src="script_hw5.js"></script> -->
+<!-- <script src="script_hw6.js"></script> -->
+<script>
+    const
+        butSend = document.getElementById('butSend'),
+        chat = document.getElementById('chat'),
+        inpUname = document.getElementById('inpUname'),
+        inpMsg = document.getElementById('inpMsg'),
+        socket = io.connect("localhost:5502");
+
+    let uname = inpUname.value;
+
+    function addMsgToChat(uname, text, align, target) {
+        const message = document.createElement('p');
+        message.style = `margin: 10px 20px; text-align: ${align}`;
+        message.innerHTML = `<i>${uname}</i>: <br> ${text}`;
+        target.appendChild(message);
+    }
+
+    function makeid(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+        }
+        return result;
+    }
+
+    async function sendMsg() {
+        uname = inpUname.value;
+        if (inpMsg.value === '' || inpMsg.value === 'Type message') {
+            return false
+        }
+
+        if (!uname || uname === 'Enter your username') {
+            uname = makeid(8);
+            inpUname.value = uname;
+        }
+        const msg = inpMsg.value;
+        socket.emit("client-msg", { uname, msg });
+
+        addMsgToChat(uname, msg, 'right', chat);
+        inpMsg.value = '';
+        return true;
+    }
+
+
+    socket.on('connect', () => {
+        console.log('Connected!');
+    });
+    socket.on("server-msg", (payload) => {
+        setTimeout(() => addMsgToChat('Server', payload, 'left', chat), 500);
+    });
+
+    inpUname.onclick = () => (inpUname.value === 'Enter your username') ? inpUname.value = '' : true;
+    inpMsg.onclick = () => (inpMsg.value === 'Type message') ? inpMsg.value = '' : true;
+    butSend.addEventListener('click', () => sendMsg());
+
+
+</script>
 
 </html>

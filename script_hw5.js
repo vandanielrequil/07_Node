@@ -2,7 +2,6 @@
 To interact with program "npm start" and open index.html 
 */
 
-
 const url = `http://localhost:5501/`,
     button1 = document.getElementById('but1');
 
